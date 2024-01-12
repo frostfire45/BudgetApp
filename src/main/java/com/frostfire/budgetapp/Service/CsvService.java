@@ -14,6 +14,9 @@ public class CsvService {
         this.fileLoc = fileLoc;
     }
 
+    public void createStream(){
+
+    }
     public void convertToObject(char delm,int numEnities,char endLine) {
         try {
             FileInputStream fs = new FileInputStream(fileLoc);

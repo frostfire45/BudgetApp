@@ -19,13 +19,13 @@ public class Transaction {
     @Column(name = "amount")
     private Double amount;
     @Column(name = "check_num")
-    private int check_num;
+    private Integer check_num;
     @Column(name = "payee")
     private String payee;
     @Column(name = "memo")
     private String memo;
 
-    public Transaction(LocalDate posted_date, Double amount, int check_num, String payee, String memo) {
+    public Transaction(LocalDate posted_date, Double amount, Integer check_num, String payee, String memo) {
         this.posted_date = posted_date;
         this.amount = amount;
         this.check_num = check_num;
@@ -44,8 +44,8 @@ public class Transaction {
     public Double getAmount() { return amount; }
     public void setAmount(Double amount) { this.amount = amount; }
 
-    public int getCheck_num() { return check_num; }
-    public void setCheck_num(int check_num) { this.check_num = check_num; }
+    public Integer getCheck_num() { return check_num; }
+    public void setCheck_num(Integer check_num) { this.check_num = check_num; }
     public String getPayee() { return payee; }
     public void setPayee(String payee) { this.payee = payee; }
     public String getMemo() { return memo; }

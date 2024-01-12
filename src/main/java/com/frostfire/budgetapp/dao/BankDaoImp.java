@@ -22,7 +22,7 @@ public class BankDaoImp implements BankDao {
     }
 
     @Override
-    public void addNewBank(Bank bank) {
+    public void addBank(Bank bank) {
 
     }
 
@@ -33,6 +33,11 @@ public class BankDaoImp implements BankDao {
 
     @Override
     public void updateBank(Bank bank) {
+
+    }
+
+    @Override
+    public void commit() {
 
     }
 }
