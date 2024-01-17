@@ -1,8 +1,8 @@
 package com.frostfire.budgetapp;
 
 import com.frostfire.budgetapp.Service.Utility;
-import com.frostfire.budgetapp.dao.TransactionDao;
-import com.frostfire.budgetapp.model.Transaction;
+import com.frostfire.budgetapp.manager.BankTransactionManager;
+import com.frostfire.budgetapp.model.BankTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -18,10 +18,10 @@ import java.util.List;
 @Component
 public class MochDataLoad implements CommandLineRunner {
 
-    private final TransactionDao transactionDao;
+    private final BankTransactionManager bankTransactionDao;
 
-    public MochDataLoad(final TransactionDao transactionDao){
-        this.transactionDao = transactionDao;
+    public MochDataLoad(final BankTransactionManager bankTransactionDao){
+        this.bankTransactionDao = bankTransactionDao;
     }
     private final static Logger LOG = LoggerFactory
             .getLogger(BudgetAppApplication.class);
@@ -35,12 +35,12 @@ public class MochDataLoad implements CommandLineRunner {
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         BufferedReader reader = new BufferedReader(streamReader);
 
-        List<Transaction> transList = new ArrayList<>();
+        List<BankTransaction> transList = new ArrayList<>();
         reader.readLine();
         String line;
         while((line = reader.readLine()) != null) {
            String[] coliumSplit = line.split(",");
-           Transaction trans = new Transaction();
+           BankTransaction trans = new BankTransaction();
            trans.setPosted_date(Utility.convertStringToDate(coliumSplit[0].replace('\"',' ').trim()));
            trans.setAmount(Double.parseDouble(coliumSplit[1].replace('\"',' ').trim()));
 
@@ -54,7 +54,8 @@ public class MochDataLoad implements CommandLineRunner {
            trans.setMemo(coliumSplit[4].replace('\"',' ').trim());
            transList.add(trans);
         }
-        transactionDao.insertMulpleTransaction(transList);
+        bankTransactionDao.addMultipleTransaction(transList);
+        //bankTransactionDao.insertMulpleTransaction(transList);
         LOG.info("Here");
     }
 }

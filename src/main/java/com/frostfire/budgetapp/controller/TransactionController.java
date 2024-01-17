@@ -1,32 +1,50 @@
 package com.frostfire.budgetapp.controller;
 
 
-import com.frostfire.budgetapp.dao.TransactionDao;
-import com.frostfire.budgetapp.model.Transaction;
+import com.frostfire.budgetapp.dao.BankTransactionDao;
+import com.frostfire.budgetapp.manager.BankTransactionManager;
+import com.frostfire.budgetapp.model.BankTransaction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/transaction")
+@RequestMapping(value = {"/bankTransaction","/transaction"})
 public class TransactionController {
 
-    private final TransactionDao transDao;
+    private final BankTransactionDao transDao;
+    private final BankTransactionManager btm;
 
-    public TransactionController(final TransactionDao transDao){
+    public TransactionController(final BankTransactionDao transDao, final BankTransactionManager btm){
         this.transDao = transDao;
+        this.btm = btm;
     }
 
-    @RequestMapping("/")
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) throws ParseException {
-        String today = LocalDate.now().toString();
-        String previous = LocalDate.now().minusMonths(1).toString();
-        List<Transaction> transList = transDao.getAllTransaction(previous,today);
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = LocalDate.now().minusMonths(1);
+        List<BankTransaction> transList = transDao.getAllTransaction(startDate,endDate);
         model.addAttribute("transactions",transList);
         return "transaction";
+    }
+
+    @RequestMapping(value = "/addTransaction", method = RequestMethod.POST)
+    public String addTransaction(@ModelAttribute BankTransaction bankTransaction){
+        if(bankTransaction != null) {
+            btm.addTransaction(bankTransaction);
+        }
+        return "redirect:/bankTransaction/index";
+    }
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String delete(@PathVariable Long id){
+        if(id != null && id > -1) {
+            btm.deleteTransaction(id);
+        }
+        return "redirect:/bankTransaction/index";
     }
 }

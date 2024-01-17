@@ -40,13 +40,15 @@ public class HibernateConfig {
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
         return dataSource;
     }
+    /*
     @Bean
     public PlatformTransactionManager hibernateTransactionManager() {
-        HibernateTransactionManager transactionManager
+        HibernateTransactionManager hibTransactionManager
                 = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory().getObject());
-        return transactionManager;
+        hibTransactionManager.setSessionFactory(sessionFactory().getObject());
+        return hibTransactionManager;
     }
+     */
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         //properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
@@ -64,10 +66,14 @@ public class HibernateConfig {
     # that use a single Hibernate SessionFactory for transactional data access, but it also supports direct
     # DataSource access within a transaction i.e. plain JDBC
     #-----------------------------------------------------------------------------------------------------------------*/
+    /*
     @Bean
     public HibernateTransactionManager transactionManager() {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory().getObject());
         return transactionManager;
     }
+
+     */
+
 }

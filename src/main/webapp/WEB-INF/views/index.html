@@ -1,20 +1,10 @@
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>"${title}"</title>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="~{fragments/nav :: head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-    <nav id="MyFinancialApp-navbar"
-         class="navbar navbar-expand-md">
-        <a class="navbar-brand" href="/">
-            <img src="resources/static/images/decal.png" width="30" height="30"
-                 alt="">
-        </a>
-        <a class="nav-item nav-link" href="/bank">Banking</a>
-        <a class="nav-item nav-link" href="/bills">Bills</a>
-    </nav>
+<div th:insert="~{fragments/nav :: nav}"></div>
     <h1>Welcome</h1>
 </body>
 </html>

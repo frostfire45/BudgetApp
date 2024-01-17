@@ -3,12 +3,10 @@ package com.frostfire.budgetapp.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 @Table(name = "transaction")
-public class Transaction {
+public class BankTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,7 +23,7 @@ public class Transaction {
     @Column(name = "memo")
     private String memo;
 
-    public Transaction(LocalDate posted_date, Double amount, Integer check_num, String payee, String memo) {
+    public BankTransaction(LocalDate posted_date, Double amount, Integer check_num, String payee, String memo) {
         this.posted_date = posted_date;
         this.amount = amount;
         this.check_num = check_num;
@@ -33,7 +31,7 @@ public class Transaction {
         this.memo = memo;
     }
 
-    public Transaction() {
+    public BankTransaction() {
 
     }
 
@@ -53,7 +51,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction{" +
+        return "BankTransaction{" +
                 "id=" + id +
                 ", posted_date='" + posted_date + '\'' +
                 ", amount=" + amount +
