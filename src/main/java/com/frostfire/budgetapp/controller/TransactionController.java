@@ -2,6 +2,7 @@ package com.frostfire.budgetapp.controller;
 
 
 import com.frostfire.budgetapp.dao.BankTransactionDao;
+import com.frostfire.budgetapp.manager.BankManager;
 import com.frostfire.budgetapp.manager.BankTransactionManager;
 import com.frostfire.budgetapp.model.BankTransaction;
 import org.springframework.stereotype.Controller;
@@ -17,9 +18,9 @@ import java.util.List;
 public class TransactionController {
 
     private final BankTransactionDao transDao;
-    private final BankTransactionManager btm;
+    private final BankManager.BankTransactionManager btm;
 
-    public TransactionController(final BankTransactionDao transDao, final BankTransactionManager btm){
+    public TransactionController(final BankTransactionDao transDao, final BankManager.BankTransactionManager btm){
         this.transDao = transDao;
         this.btm = btm;
     }
@@ -28,7 +29,7 @@ public class TransactionController {
     public String index(Model model) throws ParseException {
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = LocalDate.now().minusMonths(1);
-        List<BankTransaction> transList = transDao.getAllTransaction(startDate,endDate);
+        List<BankTransaction> transList = btm.getBankTransByRange(startDate,endDate);
         model.addAttribute("transactions",transList);
         return "transaction";
     }
@@ -46,5 +47,14 @@ public class TransactionController {
             btm.deleteTransaction(id);
         }
         return "redirect:/bankTransaction/index";
+    }
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update_get(@PathVariable Long id,Model model){
+        BankTransaction bankTransaction = null;
+        //if(id != null && id > -1) {
+            bankTransaction = btm.getSingleTransaction(id);
+        //}
+        model.addAttribute("trans",bankTransaction);
+        return "transactionEdit";
     }
 }

@@ -1,6 +1,9 @@
 package com.frostfire.budgetapp.dao;
 
-public interface Dao {
-    void startSession();
-    void savedSession();
+import java.util.List;
+
+public interface Dao<T> {
+ void saveAll(List<T> objs);
+void delete(Long num);
+void add(T obj);
 }

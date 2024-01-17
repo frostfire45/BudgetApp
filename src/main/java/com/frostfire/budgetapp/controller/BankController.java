@@ -1,6 +1,7 @@
 package com.frostfire.budgetapp.controller;
 
 import com.frostfire.budgetapp.dao.BankDao;
+import com.frostfire.budgetapp.manager.BankManager;
 import com.frostfire.budgetapp.model.Bank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,12 +14,15 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/banks")
 public class BankController {
-    @Autowired
-    private BankDao dao;
+    private final BankManager.BankingManager bankManager;
+
+    public BankController(final BankManager.BankingManager bankManager){
+        this.bankManager = bankManager;
+    }
 
     @RequestMapping(value = {"/getAllBank","/"},method = RequestMethod.GET)
     public String getBank(Model model){
-        List<Bank> banks = dao.getAllBanks();
+        List<Bank> banks = bankManager.getAllBanks();
         model.addAttribute("banks",banks);
         return "bankView";
     }
