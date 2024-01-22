@@ -8,10 +8,21 @@
 
 <body>
     <div th:insert="~{fragments/nav :: nav}"></div>
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        Add Transaction
-    </button>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        Add Transaction
+                    </button>
+                </div>
+                <div class="col-md-*">
+                    <input type="text"/>
+                    <input class="btn" type="submit" value="Search"/>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">

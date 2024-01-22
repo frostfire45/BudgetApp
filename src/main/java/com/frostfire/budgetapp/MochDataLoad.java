@@ -1,7 +1,7 @@
 package com.frostfire.budgetapp;
 
 import com.frostfire.budgetapp.Service.Utility;
-import com.frostfire.budgetapp.manager.BankTransactionManager;
+import com.frostfire.budgetapp.manager.BankManager;
 import com.frostfire.budgetapp.model.BankTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +18,10 @@ import java.util.List;
 @Component
 public class MochDataLoad implements CommandLineRunner {
 
-    private final BankTransactionManager bankTransactionDao;
+    private final BankManager.BankTransactionManager bankTransactionManager;
 
-    public MochDataLoad(final BankTransactionManager bankTransactionDao){
-        this.bankTransactionDao = bankTransactionDao;
+    public MochDataLoad(final BankManager.BankTransactionManager bankTransactionManager){
+        this.bankTransactionManager = bankTransactionManager;
     }
     private final static Logger LOG = LoggerFactory
             .getLogger(BudgetAppApplication.class);
@@ -54,7 +54,7 @@ public class MochDataLoad implements CommandLineRunner {
            trans.setMemo(coliumSplit[4].replace('\"',' ').trim());
            transList.add(trans);
         }
-        bankTransactionDao.addMultipleTransaction(transList);
+        bankTransactionManager.addMultipleTransaction(transList);
         //bankTransactionDao.insertMulpleTransaction(transList);
         LOG.info("Here");
     }

@@ -3,7 +3,6 @@ package com.frostfire.budgetapp.controller;
 
 import com.frostfire.budgetapp.dao.BankTransactionDao;
 import com.frostfire.budgetapp.manager.BankManager;
-import com.frostfire.budgetapp.manager.BankTransactionManager;
 import com.frostfire.budgetapp.model.BankTransaction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +39,7 @@ public class TransactionController {
             btm.addTransaction(bankTransaction);
         }
         return "redirect:/bankTransaction/index";
+
     }
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id){

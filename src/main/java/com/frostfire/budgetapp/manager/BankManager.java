@@ -1,9 +1,12 @@
 package com.frostfire.budgetapp.manager;
 
+import com.frostfire.budgetapp.Service.BankTransactionService;
+import com.frostfire.budgetapp.Service.BankingService;
 import com.frostfire.budgetapp.dao.BankDao;
 import com.frostfire.budgetapp.dao.BankTransactionDao;
 import com.frostfire.budgetapp.model.Bank;
 import com.frostfire.budgetapp.model.BankTransaction;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,45 +16,52 @@ import java.util.List;
 
 // This is a component ** Look up the definiton and use cases **
 // Create server for each database table
-@Service
-public class BankManager {
-    private final BankTransactionDao bankTransdao;
-    private final BankDao bankDao;
+// So ths is responsiple for Manager - As the name suggest
+//  which manages things in your code like EntityManager,
+//  it manages Entities, TransactionManager - It manages transaction.
+//  So you can have something called as SecurityManager which manages
+//  which Algo to use for encryption e.t.c
 
-    public BankManager(final BankTransactionDao bankTranDao, final BankDao bankDao){
-        this.bankTransdao = bankTranDao;
-        this.bankDao = bankDao;
+@Component
+public class BankManager {
+
+    private final BankTransactionService bankTransactionService;
+    private final BankingService bankingService;
+
+    public BankManager(final BankTransactionService bankTransactionService,
+                       final BankingService bankingService){
+        this.bankTransactionService = bankTransactionService;
+        this.bankingService = bankingService;
     }
     @Service
     public class BankTransactionManager {
         @Transactional
-        public List<BankTransaction> getBankTransByRange(LocalDate startDate, LocalDate endDate) throws ParseException {
-            List<BankTransaction> bankTransList = bankTransdao.getAllTransaction(startDate,endDate);
-            return bankTransList;
+        public List<BankTransaction> getBankTransByRange(LocalDate startDate, LocalDate endDate)
+                throws ParseException {
+            return bankTransactionService.getBankTransByRange(startDate,endDate);
         }
         @Transactional
         public void deleteTransaction(Long id){
-            bankTransdao.deleteTransaction(id);
+           bankTransactionService.deleteTransaction(id);
         }
-
         @Transactional
         public void addTransaction(BankTransaction bankTransaction){
-            bankTransdao.insertSingleTransaction(bankTransaction);
+            bankTransactionService.addTransaction(bankTransaction);
         }
         @Transactional
         public void addMultipleTransaction(List<BankTransaction> bankTransactions){
-            bankTransdao.insertMulpleTransaction(bankTransactions);
+            bankTransactionService.addMultipleTransaction(bankTransactions);
         }
         @Transactional
         public  BankTransaction getSingleTransaction(Long id){
-            return bankTransdao.findTransactionById(id);
+            return bankTransactionService.getSingleTransaction(id);
         }
     }
     @Service
     public class BankingManager {
         @Transactional
         public List<Bank> getAllBanks(){
-            return bankDao.getAll();
+            return bankingService.getAllBanks();
         }
     }
 }
