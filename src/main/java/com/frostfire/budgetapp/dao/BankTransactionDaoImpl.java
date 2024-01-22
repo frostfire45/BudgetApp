@@ -3,7 +3,6 @@ package com.frostfire.budgetapp.dao;
 import com.frostfire.budgetapp.model.BankTransaction;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -42,20 +41,15 @@ public class BankTransactionDaoImpl implements BankTransactionDao {
     @Override
     public void insertSingleTransaction(BankTransaction bankTransaction) {
         Session session = this.sessionFactory.getCurrentSession();
-        //session.beginTransaction();
         session.persist(bankTransaction);
-        //session.getTransaction().commit();
-        //session.close();
     }
 
     @Override
     public void insertMulpleTransaction(List<BankTransaction> transList) {
         Session session = sessionFactory.getCurrentSession();
-        //Transaction transaction = session.beginTransaction();
         for( BankTransaction trans : transList){
             session.persist(trans);
         }
-
     }
 
     @Override
@@ -68,15 +62,11 @@ public class BankTransactionDaoImpl implements BankTransactionDao {
         return null;
     }
 
-
-
     @Override
-    public void startSession() {
-
-    }
-
-    @Override
-    public void savedSession() {
-
+    public BankTransaction findTransactionById(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<BankTransaction> que = session.createQuery("FROM BankTransaction T WHERE T.id = :id");
+        que.setParameter("id",id);
+        return que.getSingleResult();
     }
 }

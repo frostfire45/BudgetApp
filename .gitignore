@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/resources/BankTransaction/myspending.csv
+/src/main/resources/BankTransaction/myspending_2.csv

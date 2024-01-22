@@ -3,41 +3,46 @@ package com.frostfire.budgetapp.dao;
 import com.frostfire.budgetapp.model.Bank;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public class BankDaoImp implements BankDao {
-
     @Autowired
-    private SessionFactory sessionFactory;
+    SessionFactory sessionFactory;
 
     @Override
-    public List<Bank> getAllBanks() {
-        Session session = this.sessionFactory.getCurrentSession();
-        List<Bank> bankList = session.createQuery("from Bank").list();
-        return bankList;
+    public void saveAll(List<Bank> objs) {
+        Session session = sessionFactory.getCurrentSession();
+        for (Bank bank : objs){
+            session.persist(bank);
+        }
     }
 
     @Override
-    public void addBank(Bank bank) {
-
+    public void delete(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query que = session.createQuery("DELETE FROM Bank  B " +
+                "WHERE B.id = :id");
+        que.setParameter("id",id);
+        //que.executeUpdate();
     }
 
     @Override
-    public void deleteBank(int id) {
-
+    public void add(Bank obj) {
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(obj);
     }
 
-    @Override
-    public void updateBank(Bank bank) {
-
-    }
 
     @Override
-    public void commit() {
-
+    public List<Bank> getAll() {
+        Session session = sessionFactory.getCurrentSession();
+        Query que = session.createQuery("FROM Bank");
+        return que.list();
     }
 }

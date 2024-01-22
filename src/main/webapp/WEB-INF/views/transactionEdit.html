@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="~{fragments/nav :: head}">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:insert="~{fragments/nav :: nav}"></div>
+<form action="/transaction/update">
+  <div class="form-group">
+    <label for="posted_date">Transaction Date:</label>
+    <input type="date" class="form-control" id="posted_date" placeholder="YYYY-MM-DD" name="posted_date">
+  </div>
+  <div class="form-group">
+    <label for="amount">Amount:</label>
+    <input type="text" class="form-control" id="amount" placeholder="Enter Amount" name="amount">
+  </div>
+  <div class="form-group">
+    <label for="check_num">Check Number:</label>
+    <input type="number" class="form-control" id="check_num" placeholder="Enter Check Number" name="check_num">
+  </div>
+  <div class="form-group">
+    <label for="payee">Payee:</label>
+    <input type="text" class="form-control" id="payee" placeholder="Enter Payee" name="payee">
+  </div>
+  <div class="form-group">
+    <label for="memo">Memo:</label>
+    <input type="text" class="form-control" id="memo" placeholder="Enter Memo" name="memo">
+  </div>
+  <input type="submit" formmethod="post" class="btn btn-primary" value="Submit">
+</form>
+</body>
+</html>

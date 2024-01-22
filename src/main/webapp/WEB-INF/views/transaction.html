@@ -5,77 +5,95 @@
     <title>Title</title>
 
 </head>
-<script>
-    function deleteTransaction(id){
-        const xhttp = new XMLHttpRequest();
-        xhttp.open("GET","http://localhost:8080/bankTransaction/delete/" + id,true );
-        xhttp.send();
-    }
-</script>
-    <body>
-        <div th:insert="~{fragments/nav :: nav}"></div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-            Add Transaction
-        </button>
-        <div class="modal fade" id="myModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Add Transaction</h4>
-                        <button class="close" data-dismiss="modal" type="button">×</button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <form action="/transaction/addTransaction">
-                            <div class="form-group">
-                                <label for="posted_date">Transaction Date:</label>
-                                <input type="date" class="form-control" id="posted_date" placeholder="YYYY-MM-DD" name="posted_date">
-                            </div>
-                            <div class="form-group">
-                                <label for="amount">Amount:</label>
-                                <input type="text" class="form-control" id="amount" placeholder="Enter Amount" name="amount">
-                            </div>
-                            <div class="form-group">
-                                <label for="check_num">Check Number:</label>
-                                <input type="number" class="form-control" id="check_num" placeholder="Enter Check Number" name="check_num">
-                            </div>
-                            <div class="form-group">
-                                <label for="payee">Payee:</label>
-                                <input type="text" class="form-control" id="payee" placeholder="Enter Payee" name="payee">
-                            </div>
-                            <div class="form-group">
-                                <label for="memo">Memo:</label>
-                                <input type="text" class="form-control" id="memo" placeholder="Enter Memo" name="memo">
-                            </div>
-                            <input type="submit" formmethod="post" class="btn btn-primary" value="Submit">
-                        </form>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
+
+<body>
+    <div th:insert="~{fragments/nav :: nav}"></div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        Add Transaction
+                    </button>
+                </div>
+                <div class="col-md-*">
+                    <input type="text"/>
+                    <input class="btn" type="submit" value="Search"/>
                 </div>
             </div>
         </div>
-        <table class="table table-striped">
-            <tr>
-                <th>Posted Date</th>
-                <th>Amount</th>
-                <th>Check Number</th>
-                <th>Payee</th>
-                <th>Memo</th>
-                <th><button>ADD</button></th>
-            </tr>
-            <tr th:each="trans : ${transactions}">
-                <td th:text="${trans.getPosted_date()}"></td>
-                <td th:text="${trans.getAmount()}">dd</td>
-                <td th:text="${trans.getCheck_num()}"></td>
-                <td th:text="${trans.getPayee()}">ss</td>
-                <td th:text="${trans.getMemo()}">ss</td>
-                <td><input th:id="${trans.getId()}" type="button" value="DELETE" onclick="deleteTransaction(this.id)"></td>
-                <td><input th:id="${trans.getId()}" type="button" value="EDIT" onclick="editTransaction(this.id)"></td>
-            </tr>
-        </table>
-    </body>
+    </div>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 id="model-title" class="modal-title">Add Transaction</h4>
+                    <button class="close" data-dismiss="modal" type="button">×</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="/transaction/addTransaction">
+                        <div class="form-group">
+                            <label for="posted_date">Transaction Date:</label>
+                            <input type="date" class="form-control" id="posted_date" placeholder="YYYY-MM-DD" name="posted_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount:</label>
+                            <input type="text" class="form-control" id="amount" placeholder="Enter Amount" name="amount">
+                        </div>
+                        <div class="form-group">
+                            <label for="check_num">Check Number:</label>
+                            <input type="number" class="form-control" id="check_num" placeholder="Enter Check Number" name="check_num">
+                        </div>
+                        <div class="form-group">
+                            <label for="payee">Payee:</label>
+                            <input type="text" class="form-control" id="payee" placeholder="Enter Payee" name="payee">
+                        </div>
+                        <div class="form-group">
+                            <label for="memo">Memo:</label>
+                            <input type="text" class="form-control" id="memo" placeholder="Enter Memo" name="memo">
+                        </div>
+                        <input type="submit" formmethod="post" class="btn btn-primary" value="Submit">
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Posted Date</th>
+            <th>Amount</th>
+            <th>Check Number</th>
+            <th>Payee</th>
+            <th>Memo</th>
+            <th><button>ADD</button></th>
+        </tr>
+        <tr th:each="trans : ${transactions}">
+            <td th:text="${trans.getPosted_date()}"></td>
+            <td th:text="${trans.getAmount()}">dd</td>
+            <td th:text="${trans.getCheck_num()}"></td>
+            <td th:text="${trans.getPayee()}">ss</td>
+            <td th:text="${trans.getMemo()}">ss</td>
+            <td><input th:id="${trans.getId()}" type="button" value="DELETE" onclick="deleteTransaction(this.id)"></td>
+            <td><input th:id="${trans.getId()}" type="button" value="EDIT"  onclick="editTransaction(this.id)"></td>
+        </tr>
+    </table>
+    <script>
+        function deleteTransaction(id){
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("GET","http://localhost:8080/bankTransaction/delete/" + id,true );
+            xhttp.send();
+            window.location.reload();
+        }
+        function editTransaction(id){
+            window.location ='/bankTransaction/update/' +  id;
+        }
+    </script>
+</body>
+
 </html>
