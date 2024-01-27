@@ -57,4 +57,10 @@ public class TransactionController {
         model.addAttribute("trans",bankTransaction);
         return "transactionEdit";
     }
+    @RequestMapping(value = "/search/{string}", method = RequestMethod.GET)
+    public String searchByString(@PathVariable String searchString,Model model){
+        List<BankTransaction> transList = btm.searchForTransaction(searchString);
+        model.addAttribute(searchString);
+        return "transaction";
+    }
 }

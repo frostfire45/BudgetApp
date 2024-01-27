@@ -54,7 +54,11 @@ public class BankTransactionDaoImpl implements BankTransactionDao {
 
     @Override
     public List<BankTransaction> findTransactionByName(String transactionName) {
-        return null;
+        Session session = this.sessionFactory.getCurrentSession();
+        Query que = session.createQuery("FROM BankTransaction T " +
+                "WHERE T.payee LIKE :searchString");
+        que.setParameter("searchString",transactionName);
+        return que.list();
     }
 
     @Override

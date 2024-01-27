@@ -33,4 +33,8 @@ public class BankTransactionService {
     public  BankTransaction getSingleTransaction(Long id){
         return bankTransdao.findTransactionById(id);
     }
+
+    public List<BankTransaction> getResultsFromSearch(String string) {
+        return bankTransdao.findTransactionByName(string);
+    }
 }

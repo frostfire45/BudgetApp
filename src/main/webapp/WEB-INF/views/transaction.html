@@ -17,8 +17,8 @@
                     </button>
                 </div>
                 <div class="col-md-*">
-                    <input type="text"/>
-                    <input class="btn" type="submit" value="Search"/>
+                    <input id="searchInput" type="text" />
+                    <input class="btn" type="submit" value="Search" onclick="searchTransaction()"/>
                 </div>
             </div>
         </div>
@@ -92,6 +92,11 @@
         }
         function editTransaction(id){
             window.location ='/bankTransaction/update/' +  id;
+        }
+        function searchTransaction(){
+            let searchString = document.getElementById('searchInput').value;
+
+            window.location = 'bankTransaction/search/' + searchString;
         }
     </script>
 </body>

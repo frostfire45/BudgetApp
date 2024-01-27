@@ -56,6 +56,11 @@ public class BankManager {
         public  BankTransaction getSingleTransaction(Long id){
             return bankTransactionService.getSingleTransaction(id);
         }
+        @Transactional
+        public List<BankTransaction> searchForTransaction(String searchString){
+            String s1 = searchString.replace(' ','%');
+            return bankTransactionService.getResultsFromSearch(s1);
+        }
     }
     @Service
     public class BankingManager {
@@ -63,5 +68,6 @@ public class BankManager {
         public List<Bank> getAllBanks(){
             return bankingService.getAllBanks();
         }
+
     }
 }

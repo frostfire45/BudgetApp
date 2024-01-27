@@ -1,6 +1,7 @@
 package com.frostfire.budgetapp;
 
 import com.frostfire.budgetapp.Service.Utility;
+import com.frostfire.budgetapp.Service.WebConfigService;
 import com.frostfire.budgetapp.manager.BankManager;
 import com.frostfire.budgetapp.model.BankTransaction;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -19,17 +21,29 @@ import java.util.List;
 public class MochDataLoad implements CommandLineRunner {
 
     private final BankManager.BankTransactionManager bankTransactionManager;
+    private final WebConfigService webConfigService;
 
-    public MochDataLoad(final BankManager.BankTransactionManager bankTransactionManager){
-        this.bankTransactionManager = bankTransactionManager;
-    }
     private final static Logger LOG = LoggerFactory
             .getLogger(BudgetAppApplication.class);
 
+    public MochDataLoad(final BankManager.BankTransactionManager bankTransactionManager,
+                        final WebConfigService webConfigService){
+        this.webConfigService = webConfigService;
+        this.bankTransactionManager = bankTransactionManager;
+    }
+
     @Override
     public void run(String... args) throws Exception {
+        loadBankTrancations();
+    }
+
+    private void loadWeb_config(){
+
+    }
+
+    private void loadBankTrancations() throws IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream inputStream = classloader.getResourceAsStream ("BankTransaction/myspending.csv");
+        InputStream inputStream = classloader.getResourceAsStream ("DatabaseData/BankTransaction/myspending.csv");
 
         assert inputStream != null;
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
@@ -39,23 +53,23 @@ public class MochDataLoad implements CommandLineRunner {
         reader.readLine();
         String line;
         while((line = reader.readLine()) != null) {
-           String[] coliumSplit = line.split(",");
-           BankTransaction trans = new BankTransaction();
-           trans.setPosted_date(Utility.convertStringToDate(coliumSplit[0].replace('\"',' ').trim()));
-           trans.setAmount(Double.parseDouble(coliumSplit[1].replace('\"',' ').trim()));
+            String[] coliumSplit = line.split(",");
+            BankTransaction trans = new BankTransaction();
+            trans.setPosted_date(Utility.convertStringToDate(coliumSplit[0].replace('\"',' ').trim()));
+            trans.setAmount(Double.parseDouble(coliumSplit[1].replace('\"',' ').trim()));
 
-           if( coliumSplit[2].replace('\"', ' ').trim().isEmpty() ){
-               trans.setCheck_num(null);
-           }
-           else {
-               trans.setCheck_num(Integer.parseInt(coliumSplit[2].replace('\"', '\0').trim()));
-           }
-           trans.setPayee(coliumSplit[3].replace('\"',' ').trim());
-           trans.setMemo(coliumSplit[4].replace('\"',' ').trim());
-           transList.add(trans);
+            if( coliumSplit[2].replace('\"', ' ').trim().isEmpty() ){
+                trans.setCheck_num(null);
+            }
+            else {
+                trans.setCheck_num(Integer.parseInt(coliumSplit[2].replace('\"', '\0').trim()));
+            }
+            trans.setPayee(coliumSplit[3].replace('\"',' ').trim());
+            trans.setMemo(coliumSplit[4].replace('\"',' ').trim());
+            transList.add(trans);
         }
         bankTransactionManager.addMultipleTransaction(transList);
         //bankTransactionDao.insertMulpleTransaction(transList);
-        LOG.info("Here");
+        LOG.info("BankTransaction Loaded");
     }
 }
