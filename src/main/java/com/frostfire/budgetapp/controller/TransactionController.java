@@ -4,6 +4,7 @@ package com.frostfire.budgetapp.controller;
 import com.frostfire.budgetapp.dao.BankTransactionDao;
 import com.frostfire.budgetapp.manager.BankManager;
 import com.frostfire.budgetapp.model.BankTransaction;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -62,5 +63,11 @@ public class TransactionController {
         List<BankTransaction> transList = btm.searchForTransaction(searchString);
         model.addAttribute(searchString);
         return "transaction";
+    }
+    @RequestMapping(value = "/api/search/{string}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String searchByStringApi(@PathVariable String searchString, Model model){
+        List<BankTransaction> listTransactions = btm.searchForTransaction(searchString);
+        model.addAttribute(listTransactions);
+        return "jsonmembertemplate";
     }
 }

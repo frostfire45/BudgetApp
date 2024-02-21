@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class BankingService {
+public class BankingService{
     private final BankDao bankDao;
 
     public BankingService(final BankDao bankDao){
