@@ -38,6 +38,21 @@ public class BankDaoImp implements BankDao {
         session.persist(obj);
     }
 
+    @Override
+    public List<Bank> getAll(LocalDate startDate, LocalDate endDate) {
+        return null;
+    }
+
+    @Override
+    public boolean enityExist(Long id) {
+        return false;
+    }
+
+    @Override
+    public void updateEnity(Bank obj) {
+
+    }
+
 
     @Override
     public List<Bank> getAll() {

@@ -5,6 +5,7 @@ import com.frostfire.budgetapp.model.AccountPayable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -16,8 +17,8 @@ public class AccountPayableManager {
     }
 
     @Transactional
-    public List<AccountPayable> getAll(){
-        return accountPayableService.getAll();
+    public List<AccountPayable> getAll(String startDate, String endDate){
+        return accountPayableService.getAll(LocalDate.parse(startDate), LocalDate.parse(endDate));
     }
 
     @Transactional
@@ -25,12 +26,16 @@ public class AccountPayableManager {
         accountPayableService.add(ap);
     }
     @Transactional
+    public void addMutlipleAccountPayable(List<AccountPayable> accountPayableList){
+        accountPayableService.addMultiple(accountPayableList);
+    }
+    @Transactional
     public void deleteAccountPayable(Long Id){
         
     }
     @Transactional
-    public void updateAccountPayable(Long id, AccountPayable ap){
+    public void updateAccountPayable(AccountPayable ap){
+        accountPayableService.updateEnity(ap);
 
     }
-
 }
