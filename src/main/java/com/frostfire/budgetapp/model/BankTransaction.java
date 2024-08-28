@@ -3,6 +3,8 @@ package com.frostfire.budgetapp.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "transaction")
@@ -34,7 +36,16 @@ public class BankTransaction {
     public BankTransaction() {
 
     }
-
+    public List<String> getList() {
+        List<String> list = new ArrayList<>();
+        list.add("Id");
+        list.add("Posted Date");
+        list.add("Amount");
+        list.add("Check Number");
+        list.add("Payee");
+        list.add("Memo");
+        return list;
+    }
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public LocalDate getPosted_date() { return posted_date; }

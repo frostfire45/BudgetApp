@@ -38,4 +38,7 @@ public class AccountPayableManager {
         accountPayableService.updateEnity(ap);
 
     }
+    public AccountPayableService getAccountPayableService(){
+        return accountPayableService;
+    }
 }

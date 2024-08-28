@@ -87,4 +87,8 @@ public class AccountPayableService implements AccountPayableDao {
         */
         session.merge(obj);
     }
+
+    public List<String> getAccountPayableFields(){
+        return new AccountPayable().getList();
+    }
 }

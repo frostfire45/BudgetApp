@@ -2,6 +2,8 @@ package com.frostfire.budgetapp.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "accountPayable")
@@ -43,6 +45,17 @@ public class AccountPayable {
         this.payee = payee;
         this.memo = memo;
         this.amtPaid = amtPaid;
+    }
+    public List<String> getList() {
+        List<String> list = new ArrayList<>();
+        list.add("Id");
+        list.add("Posted Date");
+        list.add("Amount");
+        list.add("Check Number");
+        list.add("Payee");
+        list.add("Memo");
+        list.add("AmtPaid");
+        return list;
     }
     public Double getAmtPaid() {
         return amtPaid;

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
@@ -19,12 +20,14 @@ import java.util.Locale;
 @PropertySource("classpath:application.properties")
 public class AccountPayableViewModel {
     final private AccountPayableManager accntPayMang;
+
     @Autowired
     private Environment environment;
     private final static Logger LOG = LoggerFactory
             .getLogger(BudgetAppApplication.class);
     private String startDate = LocalDate.now().minusMonths(1).toString();
     private String endDate = LocalDate.now().toString();
+
     public AccountPayableViewModel(AccountPayableManager accountPayableManager) {
         this.accntPayMang = accountPayableManager;
     }
@@ -47,5 +50,9 @@ public class AccountPayableViewModel {
     public void setEndDate(LocalDate value) {
         this.endDate = value.toString();
         Log.info(value.toString());
+    }
+
+    public void uploadAccountCSV(InputStream ips){
+        List<String> accntFields = accntPayMang.getAccountPayableService().getAccountPayableFields();
     }
 }
